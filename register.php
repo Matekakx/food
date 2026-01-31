@@ -2,61 +2,30 @@
 session_start();
 include "db.php";
 
-$message = "";
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $full_name    = trim($_POST['full_name'] ?? '');
-    $email        = trim($_POST['email'] ?? '');
-    $phone_number = trim($_POST['phone_number'] ?? '');
-    $password     = trim($_POST['password'] ?? '');
-    $confirmpassword  = trim($_POST['confirm_password'] ?? '');
+    $full_name    = trim($_POST['full_name']);
+    $email        = trim($_POST['email']);
+    $phone_number = trim($_POST['phone_number']);
+    $password     = trim($_POST['password']);
 
-    //check password if match
-    
-    if ($password != $confirm_password) {
-        echo "<script> alert('password do not match'); </script>";
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+    $stmt = $conn->prepare(
+        "INSERT INTO customers (full_name, email, phone_number, password)
+         VALUES (?, ?, ?, ?)"
+    );
+
+    if ($stmt) {
+        $stmt->bind_param("ssss", $full_name, $email, $phone_number, $hashedPassword);
+        $stmt->execute();
+        $stmt->close();
+        header("Location: login.php?registered=1");
+        exit;
     }
-
-    
-        // Check if email exists
-        $check = $conn->prepare("SELECT customer_id FROM customers WHERE email = ?");
-        $check->bind_param("s", $email);
-        $check->execute();
-        $check->store_result();
-
-        if ($check->num_rows > 0) {
-            $message = "Email already exists";
-            $check->close();
-        } else {
-
-            $check->close();
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-            $stmt = $conn->prepare(
-                "INSERT INTO customers (full_name, email, phone_number, password)
-                 VALUES (?, ?, ?, ?)"
-            );
-
-            if (!$stmt) {
-                $message = "Prepare failed: " . $conn->error;
-            } else {
-
-                $stmt->bind_param("ssss", $full_name, $email, $phone_number, $hashedPassword);
-
-                if ($stmt->execute()) {
-                    header("Location: login.php?registered=1");
-                    exit;
-                } else {
-                    $message = "Insert error: " . $stmt->error;
-                }
-
-                $stmt->close();
-            }
-        }
-    }
-
+}
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -64,58 +33,79 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="style.css">
 
     <script>
-        function validateForm() {
-            let full_name= document.getElementById("full_name").value;
-            let email= document.getElementById("email").value;
-            let phone_number= document.getElementById("phone_number").value;
-            let password= document.getElementById("password").value;
-            let confirm_password= document.getElementById("confirm_password").value;
-        }
+    function validateForm() {
 
-    
-        if (full_name ==) {
-            alert("Full name must be filled out");
+        let full_name = document.getElementById("full_name").value.trim();
+        let email = document.getElementById("email").value.trim();
+        let phoneInput = document.getElementById("phone_number");
+        let phone_number = phoneInput.value.trim();
+        let password = document.getElementById("password").value;
+        let confirm_password = document.getElementById("confirm_password").value;
+
+        // Regex patterns
+        let tzWithCode = /^\+255[67]\d{8}$/; // +2556xxxxxxxx or +2557xxxxxxxx
+        let tzLocal = /^0[67]\d{8}$/;        // 06xxxxxxxx or 07xxxxxxxx
+
+        if (full_name === "") {
+            alert("Full name is required");
             return false;
         }
 
-        if (email ==) {
-            alert("email must be filled out");
+        if (email === "" || !email.includes("@")) {
+            alert("Enter a valid email address");
             return false;
         }
 
-        if (!email.includes("@"))  {
-            alert("Please enter a valid email");
+        // Phone number validation + normalization
+        if (tzLocal.test(phone_number)) {
+            // Convert 06/07 to +255
+            phone_number = "+255" + phone_number.substring(1);
+            phoneInput.value = phone_number;
+        } else if (!tzWithCode.test(phone_number)) {
+            alert("Phone number must be 06XXXXXXXX, 07XXXXXXXX or +2556/7XXXXXXXX");
             return false;
         }
 
-        if (password.lenght <8) {
-            alert("Password musgt be atleast 8 characters");
+        if (password.length < 8) {
+            alert("Password must be at least 8 characters");
             return false;
-
-            alert("Form submitted successfully!");
-            return true;
         }
-</script>
+
+        if (password !== confirm_password) {
+            alert("Passwords do not match");
+            return false;
+        }
+
+        return true; // allow submit
+    }
+    </script>
 </head>
+
 <body>
 
 <div class="form-container">
 
     <h2>Customer Registration</h2>
 
-      
-    <form method="POST" action="">
-        <input type="text" name="full_name" placeholder="Full Name" required>
+    <form method="POST" action="" onsubmit="return validateForm();">
 
-        <input type="email" name="email" placeholder="Email" required>
+        <input type="text" id="full_name" name="full_name"
+               placeholder="Full Name">
 
-        <input type="text" name="phone_number" placeholder="Phone Number" required>
+        <input type="email" id="email" name="email"
+               placeholder="Email">
 
-        <input type="password" name="password" placeholder="Password" required>
+        <input type="text" id="phone_number" name="phone_number"
+               placeholder="Phone Number (06/07 or +255...)">
 
-        <input type="password" name="confirm_Password" placeholder="confirm Password" required>
+        <input type="password" id="password" name="password"
+               placeholder="Password">
 
-        <button type="submit" name ="register" value="Register"></button>
+        <input type="password" id="confirm_password"
+               placeholder="Confirm Password">
+
+        <button type="submit">Register</button>
+
     </form>
 
     <p>Already have an account? <a href="login.php">Login</a></p>
