@@ -1,0 +1,236 @@
+ /* Reset default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+}
+
+/* Page background */
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #4e73df, #1cc88a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Main form box */
+.form-container {
+    background: #ffffff;
+    width: 100%;
+    max-width: 420px;
+    padding: 30px 35px;
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+/* Heading */
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+    font-weight: 600;
+}
+
+/* Error message */
+.message-error {
+    background-color: #f8d7da;
+    color: #842029;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 18px;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* Input fields */
+.form-container input {
+    width: 100%;
+    padding: 12px 14px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-container input:focus {
+    border-color: #4e73df;
+    box-shadow: 0 0 0 2px rgba(78, 115, 223, 0.15);
+    outline: none;
+}
+
+/* Register button */
+.form-container button {
+    width: 100%;
+    padding: 12px;
+    background: #4e73df;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.1s;
+}
+
+.form-container button:hover {
+    background: #2e59d9;
+}
+
+.form-container button:active {
+    transform: scale(0.98);
+}
+
+/* Bottom text */
+.form-container p {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 14px;
+}
+
+/* Links */
+.form-container a {
+    color: #4e73df;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.form-container a:hover {
+    text-decoration: underline;
+}
+
+/* Mobile friendly */
+@media (max-width: 480px) {
+    .form-container {
+        padding: 25px 20px;
+    }
+}
+
+
+/*....Userlogin form...*/
+
+
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+}
+
+/* Page background */
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #4e73df, #1cc88a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Form container */
+.form-container {
+    background: #ffffff;
+    width: 100%;
+    max-width: 420px;
+    padding: 30px 35px;
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+/* Heading */
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+    font-weight: 600;
+}
+
+/* Messages */
+.message-error {
+    background: #f8d7da;
+    color: #842029;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 18px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.message-success {
+    background: #d1e7dd;
+    color: #0f5132;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 18px;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* Inputs */
+.form-container input {
+    width: 100%;
+    padding: 12px 14px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-container input:focus {
+    border-color: #4e73df;
+    box-shadow: 0 0 0 2px rgba(78, 115, 223, 0.15);
+    outline: none;
+}
+
+/* Button */
+.form-container button {
+    width: 100%;
+    padding: 12px;
+    background: #4e73df;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.1s;
+}
+
+.form-container button:hover {
+    background: #2e59d9;
+}
+
+.form-container button:active {
+    transform: scale(0.98);
+}
+
+/* Bottom text */
+.form-container p {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 14px;
+}
+
+/* Links */
+.form-container a {
+    color: #4e73df;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.form-container a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .form-container {
+        padding: 25px 20px;
+    }
+}
+
+
+
