@@ -1,0 +1,11 @@
+<?php
+// adminlogout.php
+session_start();
+
+// Destroy the session
+session_destroy();
+
+// Redirect to login page
+header("Location: adminlogin.php");
+exit();
+?>
